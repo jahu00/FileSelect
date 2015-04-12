@@ -17,10 +17,11 @@ var path = localStorage['lastPath'] || 'file:///storage/';
 // If you don't provide a mask *.* will be used
 var fileSelector = new FileSelector($('#container'), path, 'Documents (html, txt)|*.htm;*.html;*.txt|All files|*.*');
 // Mask can be changed later using setMasks method.
-fileSelector.onCancel = function() // Fires on the back button
+fileSelector.onCancel = function(e) // Fires on the back button
 {
-  // Add code for closing the file selector, going one folder back (like below) or something else
+	// Add code for closing the file selector, going one folder back (like below) or something else
 	$(fileSelector.elem).find('.file-container .item.back').click();
+	e.stop(); // prevent other backbutton event listners from firing
 };
 fileSelector.onSuccess = function(path)
 {
@@ -28,12 +29,12 @@ fileSelector.onSuccess = function(path)
 };
 fileSelector.onPathChanged = function(path)
 {
-  // Each time you change directory this callback will be launched (here we're saving lastpath in local storage)
+	// Each time you change directory this callback will be launched (here we're saving lastpath in local storage)
 	localStorage['lastPath'] = path;
 };
 fileSelector.onFail = function(error)
 {
-  // If something goes wrong this code will be executed
+	// If something goes wrong this code will be executed
 	alert(error.message);
 };
 // There are also onMenu() and onOpenFile(fileEntry, path) callbacks.
